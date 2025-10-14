@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#architectures", label: "Architectures" },
-  { href: "#buildings", label: "Buildings" },
-  { href: "#testimonials", label: "Testimonials" },
+  { id: 1, href: "#home", label: "Home" },
+  { id: 2, href: "#architectures", label: "Architectures" },
+  { id: 3, href: "#buildings", label: "Buildings" },
+  { id: 4, href: "#testimonials", label: "Testimonials" },
 ];
 
 export default function Header() {
@@ -36,19 +36,11 @@ export default function Header() {
     >
       <nav className="mx-auto max-w-6xl px-4">
         <div className="flex h-14 items-center justify-between">
-          <Link href="#home" className="font-semibold tracking-tight">
-            Modern World
-          </Link>
           <ul className="hidden gap-6 text-sm md:flex">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="text-gray-700 transition-colors hover:text-black"
-                >
-                  {l.label}
-                </a>
-              </li>
+            {links.map((link) => (
+              <Link href={link.href} key={link.id}>
+                {link.label}
+              </Link>
             ))}
           </ul>
         </div>

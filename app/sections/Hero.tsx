@@ -7,9 +7,9 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-gray-50"
+      className="relative flex min-h-[100vh] items-center justify-center overflow-hidden bg-gray-50"
     >
-      <div className="absolute inset-0 bg-[url('/hero.jpg')] bg-cover bg-center opacity-10" />
+      <div className="absolute inset-0 bg-[url('/images/hero/hero.svg')]  bg-bottom bg-no-repeat bg-cover" />
       <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
