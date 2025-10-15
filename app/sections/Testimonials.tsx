@@ -1,11 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -32,44 +25,32 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <motion.h2
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center text-3xl font-semibold md:text-4xl"
-        >
+        <h2 className="text-center text-3xl font-semibold md:text-4xl">
           Clients glittering testimonials
-        </motion.h2>
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600"
-        >
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600">
           The voices of satisfaction as clients share their experiences with our
           cutting-edge modern buildings and visionary architectures.
-        </motion.p>
+        </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
           {testimonials.map((t, idx) => (
-            <motion.blockquote
+            <blockquote
               key={t.name}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="rounded-2xl border bg-white p-6 shadow-sm"
+              className="rounded-2xl border bg-[#F2F2F2] p-6 shadow-sm"
             >
-              <div className="text-3xl">“</div>
+              <Image
+                width={50}
+                height={50}
+                src={"/images/quote/quote.svg"}
+                alt={"quote logo"}
+              />
               <p className="mt-2 text-sm text-gray-800">{t.quote}</p>
               <footer className="mt-6 text-xs text-gray-500">
                 <div className="font-medium text-black">{t.name}</div>
                 <div>{t.role}</div>
               </footer>
-            </motion.blockquote>
+            </blockquote>
           ))}
         </div>
       </div>

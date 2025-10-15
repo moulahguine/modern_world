@@ -1,16 +1,12 @@
 @import "tailwindcss";
 
 :root {
+  --arrow-color: white;
 }
 
 @theme inline {
   --font-sans: var(--font-playfair);
   --font-heading: var(--font-manrope);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-  }
 }
 
 /* Headings use Manrope */
@@ -20,11 +16,79 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading), ui-sans-serif, system-ui;
+  font-family: var(--font-sans), ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Body uses Playfair */
 body {
   font-family: var(--font-sans), ui-serif, Georgia, Cambria, "Times New Roman",
     Times, serif;
+}
+
+.circle {
+  position: relative;
+}
+
+.circle::after,
+.circle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  z-index: 5;
+  background: #2c3e50;
+  animation: flit 5s infinite alternate-reverse;
+}
+
+.circle::after {
+  left: 15px;
+}
+
+.circle::before {
+  right: 15px;
+}
+
+@keyframes flit {
+  100% {
+    background: #bdc3c7;
+  }
+}
+
+/* Display title style to mimic elegant print serif headings */
+.display-title {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.arrowDown::after,
+.arrowDown::before {
+  content: "";
+  position: absolute;
+  border: solid 2px;
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  bottom: -15px;
+  transform: rotate(50deg);
+}
+
+.arrowDown::after {
+  border-color: var(--arrow-color) transparent transparent transparent;
+  left: -28px;
+}
+
+.arrowDown::before {
+  border-color: transparent transparent transparent var(--arrow-color);
+  left: 0px;
+  bottom: -15px;
+  transform: rotate(40deg);
 }
