@@ -9,22 +9,10 @@
   --font-heading: var(--font-manrope);
 }
 
-/* Headings use Manrope */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-sans), ui-serif, Georgia, Cambria, "Times New Roman",
-    Times, serif;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
-/* Body uses Playfair */
 body {
   font-family: var(--font-sans), ui-serif, Georgia, Cambria, "Times New Roman",
     Times, serif;
@@ -44,8 +32,8 @@ body {
   aspect-ratio: 1/1;
   border-radius: 50%;
   z-index: 5;
-  background: #2c3e50;
-  animation: flit 5s infinite alternate-reverse;
+  background: #f2f2f2;
+  animation: flit 3s infinite alternate-reverse;
 }
 
 .circle::after {
@@ -58,7 +46,7 @@ body {
 
 @keyframes flit {
   100% {
-    background: #bdc3c7;
+    background: #000000;
   }
 }
 
@@ -84,6 +72,22 @@ body {
 .arrowDown::after {
   border-color: var(--arrow-color) transparent transparent transparent;
   left: -28px;
+}
+
+:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .arrowDown::before {

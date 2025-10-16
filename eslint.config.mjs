@@ -19,6 +19,12 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    linterOptions: {
+      reportUnusedDisableDirectives: true,
+    },
+    rules: {
+      "no-warning-comments": ["warn", { terms: [], location: "start" }],
+    },
   },
 ];
 

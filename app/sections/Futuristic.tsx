@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { useMemo, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -18,111 +17,137 @@ const images = Array.from(
 );
 
 const imagesAndInfo = [
-  {
-    id: uuidv4(),
-    image: images,
-    title: "nebula skyline",
-    subTitle: "milan, italy",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "cantardi house",
-    subTitle: "marseille, france",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "meyer cube",
-    subTitle: "tokyo, japan",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "triangles stack",
-    subTitle: "doha, qatar",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "nebula plaza",
-    subTitle: "toronto, canada",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "luxoria apartments",
-    subTitle: "berlin, germany",
-  },
-  {
-    id: uuidv4(),
-    image: images,
-    title: "elysium skyscape",
-    subTitle: "sydney, austalia",
-  },
-  {
-    id: uuidv4(),
-    title: "dimensional dwellings",
-    subTitle: "chicago, united states",
-  },
-  { id: uuidv4(), title: "the apex tower", subTitle: "sylvania, cascadia" },
-  { id: uuidv4(), title: "haven residence", subTitle: "madrid, spain" },
+  { title: "nebula skyline", subTitle: "milan, italy" },
+  { title: "cantardi house", subTitle: "marseille, france" },
+  { title: "meyer cube", subTitle: "tokyo, japan" },
+  { title: "triangles stack", subTitle: "doha, qatar" },
+  { title: "nebula plaza", subTitle: "toronto, canada" },
+  { title: "luxoria apartments", subTitle: "berlin, germany" },
+  { title: "elysium skyscape", subTitle: "sydney, austalia" },
+  { title: "dimensional dwellings", subTitle: "chicago, united states" },
+  { title: "the apex tower", subTitle: "sylvania, cascadia" },
+  { title: "haven residence", subTitle: "madrid, spain" },
 ];
 
 export default function Futuristic() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleCount = 3;
+  const prefersReducedMotion = useReducedMotion();
 
   const items = useMemo(() => {
     const length = Math.min(images.length, imagesAndInfo.length);
     return Array.from({ length }, (_, i) => ({
-      id: imagesAndInfo[i].id,
+      id: `building-${i}`,
       title: imagesAndInfo[i].title,
       subTitle: imagesAndInfo[i].subTitle,
       image: images[i],
     }));
   }, []);
 
+  const baseLength = items.length;
+  const loopedItems = useMemo(() => {
+    if (baseLength === 0) return [];
+    if (baseLength === 1) return [...items, ...items, ...items];
+    const first = items[0];
+    const last = items[items.length - 1];
+    return [last, ...items, first];
+  }, [items, baseLength]);
+
+  useEffect(() => {
+    if (baseLength > 0 && currentIndex === 0) {
+      setCurrentIndex(1);
+    }
+  }, [baseLength, currentIndex]);
+
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const [slideStepPx, setSlideStepPx] = useState<number>(0);
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const firstChild = el.children.item(0) as HTMLElement | null;
+    if (!firstChild) return;
+    const childWidth = firstChild.offsetWidth;
+    const styles = window.getComputedStyle(el);
+    const columnGap = parseFloat(styles.columnGap || "0");
+    setSlideStepPx(childWidth + columnGap);
+  }, [baseLength]);
+
   const goNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % items.length);
+    setCurrentIndex((next) => next + 1);
   };
 
   const goPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+    setCurrentIndex((prev) => prev - 1);
   };
 
-  const visibleSlides = useMemo(() => {
-    const view = [] as Array<{
-      id: string;
-      title?: string;
-      subTitle?: string;
-      image: string;
-    }>;
-    for (let offset = 0; offset < visibleCount; offset++) {
-      const idx = (currentIndex + offset) % items.length;
-      view.push(items[idx]);
+  // Seamless boundary handling
+  const [isInstant, setIsInstant] = useState(false);
+  const TRANSITION_MS = 500;
+  useEffect(() => {
+    if (baseLength === 0) return;
+    const maxIndex = loopedItems.length - 2; // before trailing first clone
+    if (currentIndex > maxIndex) {
+      const t = setTimeout(() => {
+        setIsInstant(true);
+        setCurrentIndex(1);
+      }, TRANSITION_MS);
+      return () => clearTimeout(t);
     }
-    return view;
-  }, [currentIndex, items, visibleCount]);
+    if (currentIndex <= 0) {
+      const t = setTimeout(() => {
+        setIsInstant(true);
+        setCurrentIndex(loopedItems.length - 2);
+      }, TRANSITION_MS);
+      return () => clearTimeout(t);
+    }
+  }, [currentIndex, baseLength, loopedItems.length]);
+
+  useEffect(() => {
+    if (!isInstant) return;
+    const id = setTimeout(() => setIsInstant(false), 0);
+    return () => clearTimeout(id);
+  }, [isInstant]);
+
+  const targetX = -(currentIndex * (slideStepPx || 0));
+
+  const view = [] as Array<{
+    id: string;
+    title?: string;
+    subTitle?: string;
+    image: string;
+  }>;
+  for (let offset = 0; offset < visibleCount; offset++) {
+    const idx = (currentIndex + offset) % items.length;
+    view.push(items[idx]);
+  }
 
   return (
-    <section id="buildings" className="py-20 bg-[#F2F2F2]">
+    <section
+      id="buildings"
+      className="py-20 bg-[#F2F2F2]"
+      aria-labelledby="buildings-heading"
+    >
       <div className="mx-auto max-w-6xl px-4">
         <motion.h2
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center text-3xl font-semibold md:text-4xl"
+          id="buildings-heading"
+          variants={prefersReducedMotion ? undefined : fadeUp}
+          initial={prefersReducedMotion ? undefined : "hidden"}
+          whileInView={prefersReducedMotion ? undefined : "show"}
+          viewport={
+            prefersReducedMotion ? undefined : { once: true, margin: "-100px" }
+          }
+          className="display-title text-center lg:text-6xl md:text-4xl my-2.5"
         >
           Futuristic buildings worldwide
         </motion.h2>
         <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600"
+          variants={prefersReducedMotion ? undefined : fadeUp}
+          initial={prefersReducedMotion ? undefined : "hidden"}
+          whileInView={prefersReducedMotion ? undefined : "show"}
+          viewport={
+            prefersReducedMotion ? undefined : { once: true, margin: "-100px" }
+          }
+          className="mx-auto mt-8 max-w-2xl text-center text-sm text-gray-700"
         >
           In every corner of the world, we craft aesthetic buildings, each
           standing as a timeless work of art that captures the essence of modern
@@ -130,33 +155,48 @@ export default function Futuristic() {
         </motion.p>
 
         <div className="mt-10">
-          <div className="relative mx-auto max-w-6xl  select-none">
-            <div className="overflow-hidden rounded-2xl ">
+          <div
+            className="relative mx-auto max-w-6xl  select-none group"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Futuristic buildings carousel"
+          >
+            <div className="overflow-hidden  ">
               <motion.div
-                initial={{ x: -20, opacity: 0.9 }}
-                animate={{
-                  x: `-${(currentIndex * 100) % visibleCount}%`,
-                  opacity: 1,
-                }}
-                transition={{ type: "spring", stiffness: 140, damping: 18 }}
+                ref={trackRef}
+                animate={prefersReducedMotion ? undefined : { x: targetX }}
+                transition={
+                  prefersReducedMotion
+                    ? undefined
+                    : isInstant
+                    ? { duration: 0 }
+                    : { type: "tween", duration: 0.5, ease: "easeInOut" }
+                }
                 className="flex gap-5"
               >
-                {visibleSlides.map((slide) => (
-                  <div key={slide.id} className="basis-1/3 shrink-0 grow-0 ">
-                    <div className="relative h-56 md:h-72 lg:h-[420px] w-full rounded-2xl overflow-hidden ">
+                {loopedItems.map((slide, idx) => (
+                  <div
+                    key={slide.id + "-" + idx}
+                    className="basis-1/3 shrink-0 grow-0 "
+                  >
+                    <div className="relative h-56 md:h-72 lg:h-[530px] w-full  overflow-hidden ">
                       <Image
                         fill
                         src={slide.image}
-                        alt={slide.title ?? "Futuristic building"}
+                        alt={
+                          slide.title
+                            ? `${slide.title} — ${slide.subTitle}`
+                            : "Futuristic building exterior"
+                        }
                         className="object-cover"
                         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 33vw, 100vw"
                         priority={false}
                       />
                       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4">
-                        <p className="text-white font-medium capitalize">
+                        <p className="text-white font-bold text-3xl capitalize">
                           {slide.title}
                         </p>
-                        <p className="text-white/80 text-xs capitalize">
+                        <p className="text-white/80 text-lg capitalize">
                           {slide.subTitle}
                         </p>
                       </div>
@@ -169,15 +209,15 @@ export default function Futuristic() {
             <button
               aria-label="Previous"
               onClick={goPrev}
-              className="relative left-0 -top-50 -translate-y-1/2  bg-black/70 p-2  hover:bg-black focus:outline-none w-12 h-12 rotate-90"
+              className="relative left-1 -top-65 -translate-y-1/2  bg-black/70 p-2  hover:bg-black focus-visible:outline-2 focus-visible:outline-white w-12 h-12 rotate-90 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-300"
             >
               <div className="arrowDown absolute left-1/2 top-[50%] translate-y-[-50%] w-[2px] h-[30px] translate-x-[-50%] transition-all duration-300  bg-white"></div>
             </button>
 
             <button
-              aria-label="Previous"
+              aria-label="Next"
               onClick={goNext}
-              className="relative -right-255.5 -top-50 -translate-y-1/2  bg-black/70 p-2  hover:bg-black focus:outline-none w-12 h-12 -rotate-90"
+              className="relative -right-255.5 -top-65 -translate-y-1/2  bg-black/70 p-2  hover:bg-black focus-visible:outline-2 focus-visible:outline-white w-12 h-12 -rotate-90 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-300"
             >
               <div className="arrowDown absolute left-1/2 top-[50%] translate-y-[-50%] w-[2px] h-[30px] translate-x-[-50%] transition-all duration-300  bg-white"></div>
             </button>

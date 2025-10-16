@@ -25,28 +25,31 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-semibold md:text-4xl">
+        <h2 className="display-title text-center lg:text-6xl md:text-4xl my-2.5">
           Clients glittering testimonials
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600">
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-gray-700">
           The voices of satisfaction as clients share their experiences with our
           cutting-edge modern buildings and visionary architectures.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((t, idx) => (
+          {testimonials.map((t) => (
             <blockquote
               key={t.name}
-              className="rounded-2xl border bg-[#F2F2F2] p-6 shadow-sm"
+              className="rounded-2xl h-80 border bg-[#F2F2F2] p-6 shadow-sm transition-all duration-300 hover:rotate-3 hover:scale-110"
             >
               <Image
                 width={50}
                 height={50}
                 src={"/images/quote/quote.svg"}
-                alt={"quote logo"}
+                alt={""}
+                aria-hidden
               />
-              <p className="mt-2 text-sm text-gray-800">{t.quote}</p>
-              <footer className="mt-6 text-xs text-gray-500">
+              <p className="mt-2 text-xl font-semibold text-gray-800 ">
+                {t.quote}
+              </p>
+              <footer className="mt-6 text-xs text-gray-500 h-25 flex flex-col justify-end">
                 <div className="font-medium text-black">{t.name}</div>
                 <div>{t.role}</div>
               </footer>

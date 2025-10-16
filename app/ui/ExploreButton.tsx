@@ -1,10 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function ExploreButton() {
-  const router = useRouter();
   return (
     <Link href="#architectures">
       <div className="group mx-auto w-fit relative rounded-sm text-lg border border-black px-9 py-3 font-semibold text-white shadow-sm transition-colors bg-black hover:text-white overflow-hidden cursor-pointer">

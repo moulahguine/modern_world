@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mohamed Oulahguine - Modern World Website
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Modern World is a polished, accessible, and performant single-page portfolio experience showcasing modern and futuristic architecture. It demonstrates best practices in Next.js App Router, accessibility (WCAG 2.1 AA), SEO (OG/Twitter, canonical, robots, sitemap), responsive design, animation with reduced-motion support, and asset optimization.
+
+Live URL: https://modernworldx.netlify.app/
+
+## Tech Stack
+
+- Next.js 15 (App Router)
+- React 19
+- TypeScript (strict mode)
+- Tailwind CSS v4 (with global utility augmentations)
+- Framer Motion (animations)
+- next/font (local fonts)
+- next/image (image optimization)
+
+## Project Structure
+
+```
+app/
+  components/
+    Header.tsx
+    Footer.tsx
+  sections/
+    Hero.tsx
+    Discover.tsx
+    Futuristic.tsx
+    Testimonials.tsx
+  ui/
+    ExploreButton.tsx
+  layout.tsx
+  page.tsx
+  robots.ts
+  sitemap.ts
+public/
+  images/
+    hero/hero.svg
+    og/modern-world-og.jpg
+    architectures/... (webp)
+    Buildings/... (webp)
+```
+
+## Sections Overview
+
+- Header: Primary navigation with active state, keyboard/focus support, and IntersectionObserver for section highlighting.
+- Hero: Large introductory heading and copy with reduced-motion-aware reveals and an Explore CTA.
+- Discover: Optimized imagery (next/image) describing architectural aesthetics.
+- Futuristic: A11y-friendly carousel (edge cloning), keyboard-visible controls, descriptive captions.
+- Testimonials: Accessible blockquotes with decorative imagery hidden from assistive tech.
+- Footer: Minimal, responsive footer with copyright.
+
+## Technical Implementation
+
+- App Router with `force-static` for the landing page.
+- `layout.tsx` includes:
+  - Typed Next Metadata (title template, description, OG/Twitter, canonical)
+  - Local fonts via next/font (weights 400/600/700)
+  - JSON-LD Website schema via `next/script`
+  - Skip link targeting `#main-content`
+- `Header.tsx`:
+  - IntersectionObserver to derive active section
+  - `aria-current="page"` on active link
+  - Proper list semantics (`li > Link`)
+- `Futuristic.tsx` carousel:
+  - Edge cloning only ([last, ...items, first]) for seamless loop
+  - Focus-visible opacity for controls
+  - Reduced-motion-aware transitions
+- Images:
+  - `next/image` with responsive `sizes`, `fill`, decorative alt where appropriate
+  - Hero background upgraded to `next/image` with `priority`
+
+## Performance Optimizations
+
+- Image optimization with responsive sizing
+- Fonts reduced to commonly used weights (400/600/700) and preloaded
+- Reduced DOM in carousel (edge clones only)
+- Reduced-motion support to avoid unnecessary work for sensitive users
+- Static generation for the homepage
+
+## Accessibility Features
+
+- Landmarks: `header`, `main` (`id="main-content"`), and `footer`
+- Skip link: visible on focus, jumps to main content
+- Headings: single H1 in Hero; H2s per section
+- Keyboard support: visible focus styles; carousel controls visible on focus
+- Alt text: descriptive where meaningful; empty alt for decorative images
+- Reduced motion: respects `prefers-reduced-motion` across animated components
+- Color contrast: balanced on light backgrounds
+
+## Responsive Design
+
+- Tailwind utility classes scale typography and layout from mobile to desktop
+- Images adapt with `sizes` and `object-fit`
+
+## Setup Instructions
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Build and start:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run build && npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+- Optimized for static hosting via Next.js output. Deployed on Netlify at `https://modernworldx.netlify.app/`.
+- Includes `robots.ts` and `sitemap.ts` for SEO.
 
-To learn more about Next.js, take a look at the following resources:
+## Future Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Automated Lighthouse/aXe CI checks
+- Image CDN and AVIF fallbacks where beneficial
+- Internationalization (i18n)
