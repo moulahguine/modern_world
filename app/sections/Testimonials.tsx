@@ -25,7 +25,7 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="display-title text-center lg:text-6xl md:text-4xl my-2.5">
+        <h2 className="display-title text-center lg:text-6xl text-5xl my-2.5">
           Clients glittering testimonials
         </h2>
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-gray-700">

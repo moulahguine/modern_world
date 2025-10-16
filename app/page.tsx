@@ -13,7 +13,10 @@ export default function Page() {
     <>
       <Header />
 
-      <main id="main-content" className="min-h-screen bg-white text-black">
+      <main
+        id="main-content"
+        className="min-h-screen bg-white text-black overflow-hidden"
+      >
         {/* start hero */}
         <section
           id="home"

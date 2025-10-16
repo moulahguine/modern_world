@@ -44,6 +44,12 @@ body {
   right: 15px;
 }
 
+@media (max-width: 786) {
+  .circle::before {
+    display: none;
+  }
+}
+
 @keyframes flit {
   100% {
     background: #000000;
@@ -85,7 +91,7 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.3s !important;
     scroll-behavior: auto !important;
   }
 }

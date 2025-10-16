@@ -13,8 +13,21 @@ const links = [
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileOpen]);
 
   const sectionIds = useMemo(
     () => links.map((l) => l.href.replace("#", "")),
@@ -59,14 +72,14 @@ export default function Header() {
       transition={
         prefersReducedMotion ? undefined : { duration: 0.6, ease: "easeOut" }
       }
-      className={`fixed inset-x-0 top-5 z-50 transition-colors bg-transparent`}
+      className={`w-full fixed top-6 z-50 bg-transparent`}
     >
       <nav
-        className="max-w-3xl mx-auto px-4 bg-white rounded-4xl shadow-sm circle relative  "
+        className="relative w-full max-w-3xl mx-auto px-4 bg-white rounded-4xl circle"
         aria-label="Primary"
       >
-        <div className="flex h-14 items-center justify-center">
-          <ul className="hidden gap-6 text-sm md:flex  ">
+        <div className="flex h-14 items-center justify-end md:justify-center child">
+          <ul className="hidden gap-6 text-sm md:flex">
             {links.map((link) => (
               <li key={link.id}>
                 <Link
@@ -87,8 +100,80 @@ export default function Header() {
               </li>
             ))}
           </ul>
+
+          <button
+            type="button"
+            className="cursor-pointer md:hidden  inline-flex items-center justify-center w-10 h-10  hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-black relative"
+            aria-label={isMobileOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setIsMobileOpen((v) => !v)}
+          >
+            <span className="absolute right-1 top-2 block w-5 h-[2px] bg-black"></span>
+            <span className="absolute left-0 top-5 block w-full h-[2px] bg-black"></span>
+            <span className="absolute left-1 top-8 block w-5 h-[2px] bg-black"></span>
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileOpen && (
+        <motion.div
+          id="mobile-menu"
+          className="fixed inset-0 z-[60] bg-white/50 backdrop-blur-sm md:hidden "
+          role="dialog"
+          aria-modal="true"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <motion.div
+            className={`w-full h-100 px-6 pt-6 pb-12 bg-white absolut transition-all duration-300  ${
+              isMobileOpen ? "bottom-0" : "-bottom-100"
+            }`}
+            initial={{ y: "200%" }}
+            animate={{ y: "100%" }}
+            exit={{ y: "100%" }}
+            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+          >
+            <button
+              type="button"
+              className="cursor-pointer grid place-content-center w-10 h-10 rounded-full hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-black absolute right-2 top-2"
+              aria-label="Close navigation"
+              onClick={() => setIsMobileOpen(false)}
+            >
+              <span
+                aria-hidden
+                className="w-5 h-[2px] translate-x-1 block rotate-30 bg-black"
+              ></span>
+              <span
+                aria-hidden
+                className="w-6 h-[2px] block -rotate-40 bg-black"
+              ></span>
+            </button>
+            <ul className="mt-8 space-y-6 text-center text-base">
+              <h2 className="display-title text-2xl">Navigation</h2>
+              {links.map((link) => (
+                <li key={link.id}>
+                  <Link
+                    href={link.href}
+                    aria-current={
+                      activeSection === link.href.replace("#", "")
+                        ? "page"
+                        : undefined
+                    }
+                    className="hover:text-gray-700 focus-visible:outline-2 focus-visible:outline-black rounded-md px-2 text-gray-700"
+                    onClick={() => setIsMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </motion.div>
+      )}
     </motion.header>
   );
 }

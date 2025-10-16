@@ -4,6 +4,8 @@
 
 Modern World is a polished, accessible, and performant single-page portfolio experience showcasing modern and futuristic architecture. It demonstrates best practices in Next.js App Router, accessibility (WCAG 2.1 AA), SEO (OG/Twitter, canonical, robots, sitemap), responsive design, animation with reduced-motion support, and asset optimization.
 
+![modernworld Preview](./public/images/og/modern-world-og.jpg)
+
 Live URL: https://modernworldx.netlify.app/
 
 ## Tech Stack

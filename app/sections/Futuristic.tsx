@@ -136,7 +136,7 @@ export default function Futuristic() {
           viewport={
             prefersReducedMotion ? undefined : { once: true, margin: "-100px" }
           }
-          className="display-title text-center lg:text-6xl md:text-4xl my-2.5"
+          className="display-title text-center lg:text-6xl text-5xl my-2.5"
         >
           Futuristic buildings worldwide
         </motion.h2>
@@ -177,9 +177,9 @@ export default function Futuristic() {
                 {loopedItems.map((slide, idx) => (
                   <div
                     key={slide.id + "-" + idx}
-                    className="basis-1/3 shrink-0 grow-0 "
+                    className="basis-full md:basis-1/3 shrink-0 grow-0 "
                   >
-                    <div className="relative h-56 md:h-72 lg:h-[530px] w-full  overflow-hidden ">
+                    <div className="relative h-120 md:h-72 lg:h-[530px] w-full  overflow-hidden ">
                       <Image
                         fill
                         src={slide.image}
