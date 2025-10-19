@@ -44,9 +44,16 @@ body {
   right: 15px;
 }
 
-@media (max-width: 786) {
+@media (max-width: 786px) {
   .circle::before {
     display: none;
+  }
+  .circle::before,
+  .circle::after {
+    width: 25px;
+  }
+  .circle::after {
+    left: 20px;
   }
 }
 

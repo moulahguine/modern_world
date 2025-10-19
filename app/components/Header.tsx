@@ -36,11 +36,13 @@ export default function Header() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const options: IntersectionObserverInit = {
       root: null,
       rootMargin: "-50% 0px -50% 0px",
       threshold: 0,
     };
+
     const callback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -48,6 +50,7 @@ export default function Header() {
         }
       });
     };
+
     const obs = new IntersectionObserver(callback, options);
     observerRef.current = obs;
     const elements: Element[] = [];
@@ -75,10 +78,10 @@ export default function Header() {
       className={`w-full fixed top-6 z-50 bg-transparent`}
     >
       <nav
-        className="relative w-full max-w-3xl mx-auto px-4 bg-white rounded-4xl circle"
+        className="relative w-auto mx-5 md:w-full max-w-3xl md:mx-auto px-6 py-1 bg-white rounded-4xl circle"
         aria-label="Primary"
       >
-        <div className="flex h-14 items-center justify-end md:justify-center child">
+        <div className="flex h-10 items-center justify-end md:justify-center child">
           <ul className="hidden gap-6 text-sm md:flex">
             {links.map((link) => (
               <li key={link.id}>
@@ -109,9 +112,9 @@ export default function Header() {
             aria-controls="mobile-menu"
             onClick={() => setIsMobileOpen((v) => !v)}
           >
-            <span className="absolute right-1 top-2 block w-5 h-[2px] bg-black"></span>
-            <span className="absolute left-0 top-5 block w-full h-[2px] bg-black"></span>
-            <span className="absolute left-1 top-8 block w-5 h-[2px] bg-black"></span>
+            <span className="absolute right-3 md:right-1 top-3 md:top-2 block w-4 md:w-5 h-[2px] bg-black"></span>
+            <span className="absolute right-0 md:left-0 top-5 md:top-5 block w-[80%] md:w-full h-[2px] bg-black"></span>
+            <span className="absolute right-2 md:left-1 top-7 md:top-8 block w-3 md:w-5 h-[2px] bg-black"></span>
           </button>
         </div>
       </nav>
@@ -120,7 +123,7 @@ export default function Header() {
       {isMobileOpen && (
         <motion.div
           id="mobile-menu"
-          className="fixed inset-0 z-[60] bg-white/50 backdrop-blur-sm md:hidden "
+          className="fixed h-dvh inset-0 z-[60] bg-white/50 backdrop-blur-sm md:hidden "
           role="dialog"
           aria-modal="true"
           initial={{ opacity: 0 }}
@@ -129,12 +132,12 @@ export default function Header() {
           transition={{ duration: 0.25 }}
         >
           <motion.div
-            className={`w-full h-100 px-6 pt-6 pb-12 bg-white absolut transition-all duration-300  ${
+            className={`w-full h-80 px-6 pt-6 pb-12 bg-white absolut transition-all duration-300  ${
               isMobileOpen ? "bottom-0" : "-bottom-100"
             }`}
-            initial={{ y: "200%" }}
-            animate={{ y: "100%" }}
-            exit={{ y: "100%" }}
+            initial={{ y: "1000%" }}
+            animate={{ y: "110%" }}
+            exit={{ y: "-100%" }}
             transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           >
             <button
