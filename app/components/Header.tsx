@@ -123,22 +123,22 @@ export default function Header() {
       {isMobileOpen && (
         <motion.div
           id="mobile-menu"
-          className="fixed h-dvh inset-0 z-[60] bg-white/50 backdrop-blur-sm md:hidden "
+          className="fixed h-[100dvh] inset-0 z-[60] bg-white/50 backdrop-blur-sm md:hidden"
           role="dialog"
           aria-modal="true"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
+          onClick={() => setIsMobileOpen(false)}
         >
           <motion.div
-            className={`w-full h-80 px-6 pt-6 pb-12 bg-white absolut transition-all duration-300  ${
-              isMobileOpen ? "bottom-0" : "-bottom-100"
-            }`}
-            initial={{ y: "1000%" }}
-            animate={{ y: "110%" }}
-            exit={{ y: "-100%" }}
-            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+            className="w-full h-80 px-6 pt-6 pb-12 bg-white absolute bottom-0 rounded-t-3xl shadow-lg"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "tween", duration: 0.4, ease: "easeOut" }}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"

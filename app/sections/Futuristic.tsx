@@ -97,7 +97,7 @@ export default function Futuristic() {
               {slides.map((b, i) => (
                 <div
                   key={i}
-                  className="shrink-0 grow-0 "
+                  className=" shrink-0 grow-0 "
                   style={{ width: `${100 / visibleCount}%` }}
                 >
                   <div className="relative h-96 lg:h-[530px] w-full overflow-hidden rounded-xl">
@@ -106,6 +106,9 @@ export default function Futuristic() {
                       src={b.url}
                       alt={`${b.title} — ${b.sub}`}
                       className="object-cover"
+                      priority={i < 3}
+                      loading={i < 3 ? "eager" : "lazy"}
+                      sizes={`(max-width: 640px) 100vw, (max-width: 996px) 50vw, 33vw`}
                     />
                     <div className="absolute bottom-0 bg-gradient-to-t p-4">
                       <p className="text-white font-bold text-3xl capitalize">
