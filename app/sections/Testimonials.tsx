@@ -34,27 +34,28 @@ export default function Testimonials() {
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <blockquote
-              key={t.name}
-              className="rounded-2xl h-80 border bg-[#F2F2F2] p-6 shadow-sm transition-all duration-300 hover:rotate-3 hover:scale-110"
-            >
-              <Image
-                width={50}
-                height={50}
-                src={"/images/quote/quote.svg"}
-                alt={""}
-                aria-hidden
-              />
-              <p className="mt-2 text-xl font-semibold text-gray-800 ">
-                {t.quote}
-              </p>
-              <footer className="mt-6 text-xs text-gray-500 h-25 flex flex-col justify-end">
-                <div className="font-medium text-black">{t.name}</div>
-                <div>{t.role}</div>
-              </footer>
-            </blockquote>
-          ))}
+          {Array.isArray(testimonials) &&
+            testimonials.map((t) => (
+              <blockquote
+                key={t.name}
+                className="rounded-2xl h-80 border bg-[#F2F2F2] p-6 shadow-sm transition-all duration-300 hover:rotate-3 hover:scale-110"
+              >
+                <Image
+                  width={50}
+                  height={50}
+                  src={"/images/quote/quote.svg"}
+                  alt={""}
+                  aria-hidden
+                />
+                <p className="mt-2 text-xl font-semibold text-gray-800 ">
+                  {t.quote}
+                </p>
+                <footer className="mt-6 text-xs text-gray-500 h-25 flex flex-col justify-end">
+                  <div className="font-medium text-black">{t.name}</div>
+                  <div>{t.role}</div>
+                </footer>
+              </blockquote>
+            ))}
         </div>
       </div>
     </section>

@@ -75,25 +75,27 @@ export default function Discover() {
               "/images/architectures/s1second.webp",
               "/images/architectures/s1third.webp",
               "/images/architectures/s1fourth.webp",
-            ].map((src, idx) => (
-              <div key={src} className="relative min-w-full snap-start">
-                <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-gray-200 shadow-sm">
-                  <Image
-                    src={src}
-                    alt={
-                      src.includes("second")
-                        ? "Minimalist atrium with natural light"
-                        : src.includes("third")
-                        ? "Curved modern staircase with concrete finish"
-                        : "Facade detail with glass and steel patterns"
-                    }
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                  />
+            ]
+              .filter(Boolean)
+              .map((src, idx) => (
+                <div key={src} className="relative min-w-full snap-start">
+                  <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-gray-200 shadow-sm">
+                    <Image
+                      src={src}
+                      alt={
+                        src.includes("second")
+                          ? "Minimalist atrium with natural light"
+                          : src.includes("third")
+                          ? "Curved modern staircase with concrete finish"
+                          : "Facade detail with glass and steel patterns"
+                      }
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
           <div className="mt-3 flex items-center justify-center gap-2">
             {[0, 1, 2].map((i) => (
@@ -134,32 +136,34 @@ export default function Discover() {
               "/images/architectures/s1second.webp",
               "/images/architectures/s1third.webp",
               "/images/architectures/s1fourth.webp",
-            ].map((src) => (
-              <motion.div
-                key={src}
-                variants={prefersReducedMotion ? undefined : fadeUp}
-                initial={prefersReducedMotion ? undefined : "hidden"}
-                whileInView={prefersReducedMotion ? undefined : "show"}
-                viewport={prefersReducedMotion ? undefined : { once: true }}
-                className="overflow-hidden rounded-2xl bg-gray-200 shadow-sm"
-              >
-                <div className="relative h-44 md:h-56 w-full">
-                  <Image
-                    src={src}
-                    alt={
-                      src.includes("second")
-                        ? "Minimalist atrium with natural light"
-                        : src.includes("third")
-                        ? "Curved modern staircase with concrete finish"
-                        : "Facade detail with glass and steel patterns"
-                    }
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-110"
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                  />
-                </div>
-              </motion.div>
-            ))}
+            ]
+              .filter(Boolean)
+              .map((src) => (
+                <motion.div
+                  key={src}
+                  variants={prefersReducedMotion ? undefined : fadeUp}
+                  initial={prefersReducedMotion ? undefined : "hidden"}
+                  whileInView={prefersReducedMotion ? undefined : "show"}
+                  viewport={prefersReducedMotion ? undefined : { once: true }}
+                  className="overflow-hidden rounded-2xl bg-gray-200 shadow-sm"
+                >
+                  <div className="relative h-44 md:h-56 w-full">
+                    <Image
+                      src={src}
+                      alt={
+                        src.includes("second")
+                          ? "Minimalist atrium with natural light"
+                          : src.includes("third")
+                          ? "Curved modern staircase with concrete finish"
+                          : "Facade detail with glass and steel patterns"
+                      }
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-110"
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                    />
+                  </div>
+                </motion.div>
+              ))}
           </div>
         </div>
       </div>

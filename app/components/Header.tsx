@@ -44,25 +44,31 @@ export default function Header() {
     };
 
     const callback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
+      if (Array.isArray(entries)) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      }
     };
 
     const obs = new IntersectionObserver(callback, options);
     observerRef.current = obs;
     const elements: Element[] = [];
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) {
-        obs.observe(el);
-        elements.push(el);
-      }
-    });
+    if (Array.isArray(sectionIds)) {
+      sectionIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          obs.observe(el);
+          elements.push(el);
+        }
+      });
+    }
     return () => {
-      elements.forEach((el) => obs.unobserve(el));
+      if (Array.isArray(elements)) {
+        elements.forEach((el) => obs.unobserve(el));
+      }
       obs.disconnect();
       observerRef.current = null;
     };
