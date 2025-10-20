@@ -58,6 +58,7 @@ export const metadata: Metadata = {
   },
   description:
     "Explore modern and futuristic architecture: curated designs, global landmarks, and client testimonials showcasing aesthetic, functional spaces.",
+  metadataBase: new URL("https://modernworldx.netlify.app"),
   icons: {
     icon: [
       { url: "/favicon/favicon.ico" },
