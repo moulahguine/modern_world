@@ -94,34 +94,32 @@ export default function Futuristic() {
         <div className="relative group select-none overflow-hidden rounded-2xl">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-2">
-              {Array.isArray(slides) &&
-                slides.map((b, i) => (
-                  <div
-                    key={i}
-                    className=" shrink-0 grow-0 "
-                    style={{ width: `${100 / visibleCount}%` }}
-                  >
-                    <div className="relative h-96 lg:h-[530px] w-full overflow-hidden rounded-xl">
-                      <Image
-                        fill
-                        src={b.url}
-                        alt={`${b.title} — ${b.sub}`}
-                        className="object-cover"
-                        priority={i < 3}
-                        loading={i < 3 ? "eager" : "lazy"}
-                        sizes={`(max-width: 640px) 100vw, (max-width: 996px) 50vw, 33vw`}
-                      />
-                      <div className="absolute bottom-0 bg-gradient-to-t p-4">
-                        <p className="text-white font-bold text-3xl capitalize">
-                          {b.title}
-                        </p>
-                        <p className="text-white/80 text-lg capitalize">
-                          {b.sub}
-                        </p>
-                      </div>
+              {slides.map((b, i) => (
+                <div
+                  key={i}
+                  className=" shrink-0 grow-0 "
+                  style={{ width: `${100 / visibleCount}%` }}
+                >
+                  <div className="relative h-96 lg:h-[530px] w-full overflow-hidden rounded-xl">
+                    <Image
+                      fill
+                      src={b.url}
+                      alt={`${b.title} — ${b.sub}`}
+                      className="object-cover"
+                      priority={i < 3}
+                      loading={i < 3 ? "eager" : "lazy"}
+                    />
+                    <div className="absolute bottom-0 bg-gradient-to-t p-4">
+                      <p className="text-white font-bold text-3xl capitalize">
+                        {b.title}
+                      </p>
+                      <p className="text-white/80 text-lg capitalize">
+                        {b.sub}
+                      </p>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
 
