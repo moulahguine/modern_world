@@ -26,6 +26,7 @@ export default function Discover() {
     el.addEventListener("scroll", handle, { passive: true });
     return () => el.removeEventListener("scroll", handle as any);
   }, [activeMobileIdx]);
+
   return (
     <section id="architectures" className="py-20">
       <div className="mx-auto max-w-6xl px-4">
@@ -75,7 +76,7 @@ export default function Discover() {
               "/images/architectures/s1second.webp",
               "/images/architectures/s1third.webp",
               "/images/architectures/s1fourth.webp",
-            ].map((src, idx) => (
+            ].map((src) => (
               <div key={src} className="relative min-w-full snap-start">
                 <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-gray-200 shadow-sm">
                   <Image

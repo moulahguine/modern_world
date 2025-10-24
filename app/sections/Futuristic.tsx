@@ -4,59 +4,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const slides = [
-  {
-    url: "/images/Buildings/building-1.webp",
-    title: "nebula skyline",
-    sub: "milan, italy",
-  },
-  {
-    url: "/images/Buildings/building-2.webp",
-    title: "cantardi house",
-    sub: "marseille, france",
-  },
-  {
-    url: "/images/Buildings/building-3.webp",
-    title: "meyer cube",
-    sub: "tokyo, japan",
-  },
-  {
-    url: "/images/Buildings/building-4.webp",
-    title: "triangles stack",
-    sub: "doha, qatar",
-  },
-  {
-    url: "/images/Buildings/building-5.webp",
-    title: "nebula plaza",
-    sub: "toronto, canada",
-  },
-  {
-    url: "/images/Buildings/building-6.webp",
-    title: "luxoria apartments",
-    sub: "berlin, germany",
-  },
-  {
-    url: "/images/Buildings/building-7.webp",
-    title: "elysium skyscape",
-    sub: "sydney, australia",
-  },
-  {
-    url: "/images/Buildings/building-8.webp",
-    title: "dimensional dwellings",
-    sub: "chicago, usa",
-  },
-  {
-    url: "/images/Buildings/building-9.webp",
-    title: "the apex tower",
-    sub: "sylvania, cascadia",
-  },
-  {
-    url: "/images/Buildings/building-10.webp",
-    title: "haven residence",
-    sub: "madrid, spain",
-  },
-];
-
 export default function Futuristic() {
   const [emblaRef, embla] = useEmblaCarousel({
     loop: true,
@@ -64,6 +11,69 @@ export default function Futuristic() {
     skipSnaps: false,
   });
   const [visibleCount, setVisibleCount] = useState(3);
+
+  const slides = [
+    {
+      url: "/images/Buildings/building-1.webp",
+      title: "nebula skyline",
+      sub: "milan, italy",
+    },
+    {
+      url: "/images/Buildings/building-2.webp",
+      title: "cantardi house",
+      sub: "marseille, france",
+    },
+    {
+      url: "/images/Buildings/building-3.webp",
+      title: "meyer cube",
+      sub: "tokyo, japan",
+    },
+    {
+      url: "/images/Buildings/building-4.webp",
+      title: "triangles stack",
+      sub: "doha, qatar",
+    },
+    {
+      url: "/images/Buildings/building-5.webp",
+      title: "nebula plaza",
+      sub: "toronto, canada",
+    },
+    {
+      url: "/images/Buildings/building-6.webp",
+      title: "luxoria apartments",
+      sub: "berlin, germany",
+    },
+    {
+      url: "/images/Buildings/building-7.webp",
+      title: "elysium skyscape",
+      sub: "sydney, australia",
+    },
+    {
+      url: "/images/Buildings/building-8.webp",
+      title: "dimensional dwellings",
+      sub: "chicago, usa",
+    },
+    {
+      url: "/images/Buildings/building-9.webp",
+      title: "the apex tower",
+      sub: "sylvania, cascadia",
+    },
+    {
+      url: "/images/Buildings/building-10.webp",
+      title: "haven residence",
+      sub: "madrid, spain",
+    },
+  ];
+
+  useEffect(() => {
+    slides.forEach((slide) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = slide.url;
+      document.head.appendChild(link);
+    });
+  }, []);
 
   useEffect(() => {
     const updateVisible = () => {
@@ -100,16 +110,16 @@ export default function Futuristic() {
                   className=" shrink-0 grow-0 "
                   style={{ width: `${100 / visibleCount}%` }}
                 >
-                  <div className="relative h-96 lg:h-[530px] w-full overflow-hidden rounded-xl">
+                  <div className="relative  h-[530px] w-full overflow-hidden rounded-xl">
                     <Image
                       fill
                       src={b.url}
                       alt={`${b.title} — ${b.sub}`}
                       className="object-cover"
-                      priority={i < 3}
-                      loading={i < 3 ? "eager" : "lazy"}
+                      priority={true}
+                      loading="eager"
                     />
-                    <div className="absolute bottom-0 bg-gradient-to-t p-4">
+                    <div className="shadow-[0_-140px_35px_-87px_rgba(0,0,0,0.5)_inset] w-full absolute bottom-0 bg-gradient-to-t p-4">
                       <p className="text-white font-bold text-3xl capitalize">
                         {b.title}
                       </p>
@@ -123,7 +133,7 @@ export default function Futuristic() {
             </div>
           </div>
 
-          {/* 🔹 Your Original Arrow Buttons */}
+          {/* Your Original Arrow Buttons */}
           <button
             aria-label="Previous"
             onClick={handlePrev}

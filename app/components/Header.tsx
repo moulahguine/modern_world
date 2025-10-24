@@ -30,7 +30,7 @@ export default function Header() {
   }, [isMobileOpen]);
 
   const sectionIds = useMemo(
-    () => links.map((l) => l.href.replace("#", "")),
+    () => links.map((link) => link.href.replace("#", "")),
     []
   );
 
@@ -52,8 +52,12 @@ export default function Header() {
     };
 
     const obs = new IntersectionObserver(callback, options);
+
     observerRef.current = obs;
+    console.log(observerRef.current);
+
     const elements: Element[] = [];
+
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) {
